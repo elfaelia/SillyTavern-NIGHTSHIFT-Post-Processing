@@ -1,0 +1,300 @@
+<div id="nightshift_settings" class="nightshift_settings_content">
+    <div class="inline-drawer">
+        <div class="inline-drawer-toggle inline-drawer-header">
+            <div class="flex-container alignitemscenter justifycenter margin0 flex1">
+                <b id="nightshift_title" title="NIGHTSHIFT Post-Processing">NIGHTSHIFT | ST Post-Processing</b>
+            </div>
+            <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+        </div>
+        
+        <div class="inline-drawer-content">
+            <div class="nightshift_settings_content">
+                <hr>
+
+                <div class="flex-container justifyspacebetween alignitemscenter">
+                    <button id="nightshift_run_pipeline" class="menu_button flex1" title="Run pipeline on the latest AI message"><span>Run Pipeline</span></button>
+                </div>
+
+                <hr>
+
+                <h4 class="textAlignCenter">Global Settings</h4>
+                
+                <label class="checkbox_label" title="Enable the entire NIGHTSHIFT pipeline">
+                    <input type="checkbox" id="nightshift_enabled" />
+                    <span>Enable Extension</span>
+                </label>
+                <label class="checkbox_label" title="Automatically run on every new AI generation">
+                    <input type="checkbox" id="nightshift_autorun" />
+                    <span>Auto-run on generation</span>
+                </label>
+                <label class="checkbox_label" title="Replace message text immediately, skipping the diff review">
+                    <input type="checkbox" id="nightshift_replace_inline" />
+                    <span>Skip Diff View</span>
+                </label>
+                <label class="checkbox_label" title="Hide the message text in chat until all passes are complete">
+                    <input type="checkbox" id="nightshift_hide_until_last" />
+                    <span>Hide until last pass</span>
+                </label>
+                <label class="checkbox_label" title="Gradually replace words from the previous pass while streaming instead of hiding or showing raw chunks">
+                    <input type="checkbox" id="nightshift_dynamic_substitution" />
+                    <span>Dynamic Substitution</span>
+                </label>
+                <label class="checkbox_label" title="Disable the editable section on diff">
+                    <input type="checkbox" id="nightshift_disable_editable_diff" />
+                    <span>Disable Editable Diff</span>
+                </label>
+
+                <div class="inline-drawer">
+                    <div class="inline-drawer-toggle inline-drawer-header">
+                        <div class="flex-container alignitemscenter justifycenter margin0 flex1">
+                            <b>Advanced Settings</b>
+                        </div>
+                        <div class="inline-drawer-icon fa-solid fa-circle-chevron-down down"></div>
+                    </div>
+                    <div class="inline-drawer-content">
+                        <label class="checkbox_label" title="Inject the post-processed text back into the context for future messages">
+                            <input type="checkbox" id="nightshift_inject" />
+                            <span>Inject output back to context</span>
+                        </label>
+                        <label class="checkbox_label" title="Stream the pipeline text generation inline">
+                            <input type="checkbox" id="nightshift_stream_pipeline" />
+                            <span>Stream Pipeline Output</span>
+                        </label>
+                        <label class="checkbox_label" title="Print verbose logs to console for debugging">
+                            <input type="checkbox" id="nightshift_debug_mode" />
+                            <span>Debug Mode</span>
+                        </label>
+                        <label class="checkbox_label" title="Apply SillyTavern Regex scripts to each Context Length message individually, using per-message depth and role placement (user vs assistant)">
+                            <input type="checkbox" id="nightshift_apply_regex_context" />
+                            <span>Apply regex to context messages</span>
+                        </label>
+                        <label class="checkbox_label" title="Apply SillyTavern Regex scripts to the message sent to passes and to the pipeline output (only scripts that apply to assistant messages at depth 0 or with no depth restriction)">
+                            <input type="checkbox" id="nightshift_apply_regexes" />
+                            <span>Apply regexes</span>
+                        </label>
+                        <label class="checkbox_label" title="Enable this if you are having API issues with passes">
+                            <input type="checkbox" id="nightshift_legacy_api" />
+                            <span>Legacy Connection Profile</span>
+                        </label>
+                        <label class="checkbox_label" title="Enable compatibility with extensions like Stepped Thinking">
+                            <input type="checkbox" id="nightshift_compatibility" />
+                            <span>Compatibility Mode</span>
+                        </label>
+                        <label class="checkbox_label" title="Send scene context as distinct role messages instead of a text block">
+                            <input type="checkbox" id="nightshift_scene_context_as_roles" />
+                            <span>Scene Context as Roles</span>
+                        </label>
+                        <label class="checkbox_label" title="Keeps SillyTavern macros, XML/HTML blocks (including route and infoboards), and fenced code byte-for-byte unchanged">
+                            <input type="checkbox" id="nightshift_protect_structured_content" />
+                            <span>Lock macros &amp; tagged blocks</span>
+                        </label>
+                        <div class="flex-container alignitemscenter" style="margin-top: 8px;" title="Skip the pipeline if the message has fewer characters than this value (0 = disabled)">
+                            <span style="min-width: 160px;">Min. Characters (0 = off):</span>
+                            <input type="number" id="nightshift_min_chars" class="text_pole flex1" value="0" min="0" step="1" />
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <h4 class="textAlignCenter">Presets</h4>
+                <div class="flex-container justifyspacebetween alignitemscenter">
+                    <select id="nightshift_preset_select" class="flex1 text_pole" title="Select an active preset"></select>
+                    <button id="nightshift_save_preset" class="menu_button fa-solid fa-save interactable" title="Save to current preset" tabindex="0"></button>
+                    <button id="nightshift_load_preset" class="menu_button fa-solid fa-layer-group interactable" title="Manage Presets" tabindex="0"></button>
+                </div>
+
+                <hr>
+
+                <h4 class="textAlignCenter" style="margin-bottom: 2px;">Passes (Runs Top to Bottom)</h4>
+                <div class="textAlignCenter" style="font-size: 0.8em; opacity: 0.7; margin-bottom: 10px;">(Each one is a different API call)</div>
+                
+                <div id="nightshift_pass_list">
+                    <!-- Passes will be rendered here -->
+                </div>
+
+                <div class="nightshift-library-box">
+                    <div class="nightshift-library-title"><i class="fa-solid fa-book-open"></i> Add from Pass Library</div>
+                    <div class="flex-container alignitemscenter" style="gap: 6px;">
+                        <select id="nightshift_library_select" class="text_pole flex1" title="Choose a ready-made utility or style pass"></select>
+                        <button id="nightshift_add_library_pass" class="menu_button" title="Add selected pass"><i class="fa-solid fa-plus"></i> Add</button>
+                    </div>
+                    <div class="nightshift-library-help">Utility fixes writing or continuity. Filters / Styles change the flavour. Every added pass has its own Connection Profile.</div>
+                </div>
+                
+                <div class="flex-container justifyspacebetween alignitemscenter" style="margin-top: 10px;">
+                    <button id="nightshift_add_pass" class="menu_button flex1 fa-solid fa-plus" title="Add a blank custom pass"><span>Add Custom Pass</span></button>
+                </div>
+
+                <hr>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Processing Progress Bar -->
+<div id="nightshift_progress_bar" style="display:none;">
+    <div style="display: flex; align-items: center; margin-bottom: 8px; position: relative;">
+        <div style="font-weight: bold; width: 100%; text-align: center;">→ NIGHTSHIFT Pipeline</div>
+        <button id="nightshift_stop_pipeline" class="menu_button red_button" title="Stop Pipeline" style="padding: 2px 6px; font-size: 0.8em; position: absolute; right: 0;"><i class="fa-solid fa-stop"></i></button>
+    </div>
+    <div id="nightshift_progress_text" style="margin-bottom: 8px; font-size: 0.9em; opacity: 0.8;">Initializing...</div>
+    <div style="width: 100%; background: rgba(0,0,0,0.3); border-radius: 10px; height: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);">
+        <div id="nightshift_progress_fill" style="width: 0%; border-radius: 10px;"></div>
+    </div>
+</div>
+
+<!-- Diff Viewer Backdrop -->
+<div id="nightshift_diff_backdrop" style="display:none;"></div>
+
+<!-- Diff Viewer Modal -->
+<div id="nightshift_diff_modal" style="display:none;">
+    <div class="ns-diff-header">
+        <span class="ns-diff-title"><i class="fa-solid fa-wand-magic-sparkles"></i> NIGHTSHIFT — Review Changes</span>
+        <button id="nightshift_diff_close" class="ns-diff-close-btn" title="Close without accepting"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="ns-diff-body">
+        <div class="ns-diff-panel">
+            <div class="ns-diff-panel-header ns-diff-original-header"><i class="fa-solid fa-file-lines"></i> <span class="ns-diff-panel-label">Original</span></div>
+            <div id="nightshift_diff_original_view" class="ns-diff-content"></div>
+        </div>
+        <div class="ns-diff-divider"></div>
+        <div class="ns-diff-panel">
+            <div class="ns-diff-panel-header ns-diff-transformed-header">
+                <i class="fa-solid fa-wand-sparkles"></i> <span class="ns-diff-panel-label">Transformed</span>
+                <span class="ns-diff-edit-hint">(editable)</span>
+            </div>
+            <div id="nightshift_diff_transformed_view" class="ns-diff-content ns-diff-transformed-content"></div>
+            <textarea id="nightshift_diff_transformed" class="ns-diff-textarea text_pole"></textarea>
+        </div>
+    </div>
+    <!-- Step Navigation -->
+    <div id="nightshift_diff_steps" class="ns-diff-steps" style="display:none;">
+        <div class="ns-diff-step-nav">
+            <button id="nightshift_diff_prev" class="ns-diff-nav-arrow" title="Previous comparison"><i class="fa-solid fa-chevron-left"></i></button>
+            <div id="nightshift_diff_dots" class="ns-diff-dots"></div>
+            <button id="nightshift_diff_next" class="ns-diff-nav-arrow" title="Next comparison"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+        <div id="nightshift_diff_step_label" class="ns-diff-step-label">Full Diff</div>
+    </div>
+    <div class="ns-diff-footer">
+        <button id="nightshift_diff_reject" class="menu_button red_button ns-diff-btn"><i class="fa-solid fa-xmark"></i> Reject</button>
+        <button id="nightshift_diff_accept" class="menu_button ns-diff-btn ns-diff-accept-btn"><i class="fa-solid fa-check"></i> Accept</button>
+    </div>
+</div>
+
+<!-- Pass Editor Backdrop -->
+<div id="nightshift_pass_editor_backdrop" style="display:none;"></div>
+
+<!-- Pass Editor Modal (live fields from the pass row get parked inside while open) -->
+<div id="nightshift_pass_editor_modal" style="display:none;">
+    <div class="ns-pe-header">
+        <span class="ns-pe-title"><i class="fa-solid fa-wand-magic-sparkles"></i> Advanced Preset View</span>
+        <div id="ns_pe_name_slot"></div>
+        <button id="ns_pe_close" class="ns-pe-close-btn" title="Close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="ns-pe-body">
+        <div class="ns-pe-section">
+            <span class="ns-pe-section-label">Pass Options</span>
+            <div id="ns_pe_options_slot"></div>
+        </div>
+        <div class="ns-pe-section">
+            <span class="ns-pe-section-label">Settings & Prompt</span>
+            <div id="ns_pe_details_slot"></div>
+        </div>
+    </div>
+    <div class="ns-pe-footer">
+        <button id="ns_pe_done" class="menu_button ns-pe-btn"><i class="fa-solid fa-check"></i> Done</button>
+    </div>
+</div>
+
+<!-- Preset Manager Modal -->
+<div id="nightshift_preset_manager_modal" style="display:none;">
+    <div class="ns-diff-header ns-pm-header">
+        <span class="ns-diff-title"><i class="fa-solid fa-layer-group"></i> Manage Presets</span>
+        <button id="nightshift_preset_manager_close" class="ns-diff-close-btn" title="Close"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="ns-pm-body">
+        <div class="flex-container justifyspacebetween alignitemscenter" style="gap: 8px;">
+            <button id="nightshift_pm_add" class="menu_button flex1 fa-solid fa-plus" title="Create New Preset"><span>New Preset</span></button>
+            <button id="nightshift_pm_restore" class="menu_button flex1 fa-solid fa-clock-rotate-left" title="Restore Defaults"><span>Defaults</span></button>
+        </div>
+        <hr style="margin: 4px 0;">
+        <div id="nightshift_pm_list" class="ns-pm-list">
+            <!-- Manager list rendered here -->
+        </div>
+    </div>
+</div>
+
+<!-- Pass Template (Hidden) -->
+<template id="nightshift_pass_template">
+    <div class="nightshift-pass-item" style="border: 1px solid var(--SmartThemeBorderColor, #555); padding: 10px; margin-bottom: 5px; border-radius: 5px; background: rgba(0,0,0,0.1);">
+        <div class="nightshift-pass-header flex-container justifyspacebetween alignitemscenter" style="cursor: grab;">
+            <div class="flex-container alignitemscenter flex1">
+                <i class="fa-solid fa-grip-vertical" style="margin-right: 10px; opacity: 0.5;"></i>
+                <input type="checkbox" class="ns-pass-enabled" checked title="Enable/Disable pass" />
+                <input type="text" class="ns-pass-name text_pole flex1" placeholder="Pass Name" style="margin-left: 5px;" />
+            </div>
+            <div style="display: flex; align-items: center; gap: 2px;">
+                <button class="menu_button ns-pass-toggle-details fa-solid fa-chevron-down" title="Toggle Details"></button>
+                <button class="menu_button ns-pass-expand fa-solid fa-expand" title="Advanced Preset View"></button>
+                <div class="ns-pass-menu-dropdown" style="display: none;">
+                        <label class="checkbox_label" title="Inject active World Info entries into this pass's system prompt">
+                            <input type="checkbox" class="ns-pass-inject-world-info" />
+                            <span>Inject World Info</span>
+                        </label>
+                        <label class="checkbox_label" title="Replace {{outlet:name}} placeholders in the prompt with matching WI outlet entries">
+                            <input type="checkbox" class="ns-pass-inject-wi-outlets" />
+                            <span>WI Outlets</span>
+                        </label>
+                        <label class="checkbox_label" title="Include the character card in this pass's context">
+                            <input type="checkbox" class="ns-pass-include-char-card" />
+                            <span>Include Character Card</span>
+                        </label>
+                        <label class="checkbox_label" title="Include recent scene context messages in this pass's context">
+                            <input type="checkbox" class="ns-pass-include-scene-context" />
+                            <span>Include Scene Context</span>
+                        </label>
+                </div>
+                <button class="menu_button ns-pass-remove fa-solid fa-trash red_button" title="Remove Pass"></button>
+            </div>
+        </div>
+        <div class="nightshift-pass-details" style="display: none; margin-top: 10px;">
+            <div class="flex-container alignitemscenter" style="margin-bottom: 5px;">
+                <span style="min-width: 120px;" title="Used to organise this pass">Section:</span>
+                <select class="ns-pass-category text_pole flex1">
+                    <option value="utility">Utility</option>
+                    <option value="style">Filter / Style</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+
+            <div class="flex-container alignitemscenter" style="margin-bottom: 5px;">
+                <span style="min-width: 120px;" title="Which connection profile should this pass use?">Connection:</span>
+                <select class="ns-pass-connection text_pole flex1"></select>
+            </div>
+
+            <div class="flex-container alignitemscenter" style="margin-bottom: 5px;">
+                <span style="min-width: 120px;" title="Messages to include">Context Length:</span>
+                <input type="number" class="ns-pass-context-length text_pole flex1" value="3" min="0" />
+            </div>
+            
+            <div style="margin-bottom: 5px;">
+                <span>Prompt:</span>
+                <textarea class="ns-pass-prompt text_pole" rows="4" style="width: 100%; resize: vertical; margin-top: 5px;"></textarea>
+            </div>
+            <div style="margin-bottom: 5px;">
+                <div class="flex-container alignitemscenter justifyspacebetween">
+                    <span>Prefill:</span>
+                    <select class="ns-pass-prefill-role text_pole" title="Role to inject this message as">
+                        <option value="assistant">Assistant</option>
+                        <option value="user">User</option>
+                        <option value="system">System</option>
+                    </select>
+                </div>
+                <textarea class="ns-pass-prefill text_pole" rows="2" style="width: 100%; resize: vertical; margin-top: 5px;" placeholder="Optional prefill..."></textarea>
+            </div>
+        </div>
+    </div>
+</template>

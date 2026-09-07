@@ -1,0 +1,7 @@
+NIGHTSHIFT Post-Processing is derived from Recast Post-Processing.
+
+Original project: https://github.com/closuretxt/recast-post-processing
+Original copyright: Copyright (C) 2026 closuretxt
+Original license: GNU Affero General Public License v3.0
+
+NIGHTSHIFT edition additions include structured-content protection, grouped pass-library UI, and additional utility and style prompt templates.

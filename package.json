@@ -1,0 +1,8 @@
+{
+  "name": "nightshift-post-processing",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test"
+  }
+}
