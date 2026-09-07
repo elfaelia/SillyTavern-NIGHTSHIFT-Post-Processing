@@ -26,7 +26,9 @@ import { initSlashCommands } from "./util/slashCommands.js";
 
 // Setup
 export const extensionName = "NIGHTSHIFT";
-const extensionFolderPath = `scripts/extensions/third-party/nightshift-post-processing`;
+// Derive the actual installed folder name. SillyTavern normally clones a repository
+// using its repository name, which may not match a hard-coded development folder.
+const extensionFolderPath = new URL('.', import.meta.url).pathname.replace(/\/$/, '');
 const extensionSettings = extension_settings[extensionName];
 
 // Starting variables
