@@ -396,13 +396,38 @@ ins.ns-ins {
     }
 
     #nightshift_diff_modal {
-        top: 2.5vh;
-        left: 2.5vw;
+        top: calc(var(--nightshift-visible-offset-top, 0px) + max(8px, env(safe-area-inset-top)));
+        left: max(8px, env(safe-area-inset-left));
         transform: none !important;
-        width: 95vw;
-        height: 95vh;
+        width: calc(100dvw - max(16px, env(safe-area-inset-left) + env(safe-area-inset-right)));
+        height: calc(var(--nightshift-visible-height, 100dvh) - max(16px, env(safe-area-inset-top) + env(safe-area-inset-bottom)));
+        max-height: calc(var(--nightshift-visible-height, 100dvh) - max(16px, env(safe-area-inset-top) + env(safe-area-inset-bottom)));
         max-width: none;
+        box-sizing: border-box;
         animation: ns-fade-in 0.22s ease;
+    }
+
+    .ns-diff-header {
+        padding: 10px 12px;
+    }
+
+    .ns-diff-body {
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .ns-diff-footer {
+        position: relative;
+        z-index: 2;
+        padding: 9px 10px calc(9px + env(safe-area-inset-bottom));
+        gap: 8px;
+        background: var(--SmartThemeBlurTintColor, #1a1a2e);
+    }
+
+    .ns-diff-btn {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 8px 10px !important;
     }
 
     #nightshift_preset_manager_modal {
@@ -622,12 +647,18 @@ ins.ns-ins {
     }
 
     #nightshift_pass_editor_modal {
-        top: 2.5vh;
-        left: 2.5vw;
+        top: calc(var(--nightshift-visible-offset-top, 0px) + max(8px, env(safe-area-inset-top)));
+        left: max(8px, env(safe-area-inset-left));
         transform: none !important;
-        width: 95vw;
-        height: 95vh;
+        width: calc(100dvw - max(16px, env(safe-area-inset-left) + env(safe-area-inset-right)));
+        height: calc(var(--nightshift-visible-height, 100dvh) - max(16px, env(safe-area-inset-top) + env(safe-area-inset-bottom)));
+        max-height: calc(var(--nightshift-visible-height, 100dvh) - max(16px, env(safe-area-inset-top) + env(safe-area-inset-bottom)));
+        box-sizing: border-box;
         animation: ns-fade-in 0.22s ease;
+    }
+
+    .ns-pe-footer {
+        padding-bottom: calc(10px + env(safe-area-inset-bottom));
     }
 
     #ns_pe_details_slot .ns-pass-prompt {
