@@ -10,6 +10,7 @@ NIGHTSHIFT is a separate, expanded edition of [Recast Post-Processing](https://g
 - **Filters / Styles library:** More Dramatic, Darker Tone, Horror, Dark Romance, Satire, Romance, Action & Violence, Gore & Body Horror, Noir, and More Explicit (Adults).
 - **Per-pass profiles:** every added library pass has its own Connection Profile, context length, character card, scene context, and World Info controls.
 - **Separate identity:** NIGHTSHIFT uses its own settings, DOM identifiers, message metadata, macros, and `/ns-*` slash commands.
+- **Portable installation path:** the extension detects the folder SillyTavern installed it into instead of assuming the GitHub repository and local folder have identical names.
 
 The original Recast default passes remain available in **Default Preset**. Two additional presets, **Utility Toolkit** and **Styles & Filters**, provide all new passes in a disabled state so you can enable only what you want. The same passes are also available from the grouped **Add from Pass Library** menu.
 
