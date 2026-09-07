@@ -1197,8 +1197,24 @@ export function refreshNIGHTSHIFTMacros() {
     }
 }
 
+// iOS Safari's visible viewport changes as its address and navigation bars expand.
+// CSS viewport units alone are inconsistent across Safari versions, so expose the
+// actual Visual Viewport measurements for the mobile modal rules.
+function syncVisualViewport() {
+    const viewport = window.visualViewport;
+    const height = viewport?.height || window.innerHeight;
+    const offsetTop = viewport?.offsetTop || 0;
+    document.documentElement.style.setProperty('--nightshift-visible-height', `${height}px`);
+    document.documentElement.style.setProperty('--nightshift-visible-offset-top', `${offsetTop}px`);
+}
+
 // Startup
 jQuery(async () => {
+    syncVisualViewport();
+    window.visualViewport?.addEventListener('resize', syncVisualViewport);
+    window.visualViewport?.addEventListener('scroll', syncVisualViewport);
+    window.addEventListener('orientationchange', syncVisualViewport);
+
     const settingsHtml = await $.get(`${extensionFolderPath}/index.html`);
     const tempDiv = $('<div>').html(settingsHtml);
     
