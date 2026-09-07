@@ -6,6 +6,6 @@
     "js": "index.js",
     "css": "style.css",
     "author": "closuretxt (original Recast), elfaelia / OpenAI (NIGHTSHIFT edition)",
-    "version": "2.0.0-nightshift.1",
+    "version": "2.0.0-nightshift.2",
     "homePage": "https://github.com/elfaelia/SillyTavern-NIGHTSHIFT-Post-Processing"
 }
