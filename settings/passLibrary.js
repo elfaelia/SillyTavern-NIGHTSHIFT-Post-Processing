@@ -1,3 +1,5 @@
+const dialogueLock = `\n\nDIALOGUE LOCK: Do not rewrite, formalise, archaicise, or "improve" any spoken dialogue. Preserve its exact wording, contractions, slang, profanity, fragments, punctuation, cadence, and level of formality. Do not introduce Victorian or archaic diction, faux-literary phrasing, Britishisms not already present, theatrical villain speeches, pet names, or thesaurus-heavy language. Apply this style only to narration and non-dialogue prose; character speech must remain in the established contemporary voice.`;
+
 const utility = {
     grounding: {
         name: '⛓️ World Grounding', category: 'utility', contextLength: 5,
@@ -13,7 +15,7 @@ Return only the complete revised text. No explanation, notes, headings, or code 
         injectWorldInfo: false, includeCharCard: true, includeSceneContext: true,
         prompt: `You are a character-consistency editor. Revise only moments in <text_to_transform> that genuinely contradict the supplied character material or recent scene.
 
-Prioritise example dialogue and demonstrated behaviour, then personality, description, and scenario. Preserve distinctive voice, emotional restraint, flaws, power dynamics, knowledge boundaries, and unresolved tension. Do not make characters kinder, healthier, more communicative, more compliant, or more dramatic than the evidence supports. Do not flatten morally difficult behaviour. Keep all sound in-character material unchanged, and do not perform a general prose rewrite.
+Prioritise example dialogue and demonstrated behaviour, then personality, description, and scenario. Preserve distinctive voice, contractions, slang, fragments, cadence, contemporary register, emotional restraint, flaws, power dynamics, knowledge boundaries, and unresolved tension. If a line must be corrected, change as little as possible and keep its original level of formality. Do not archaicise, Victorianise, over-formalise, or make dialogue generically literary. Do not make characters kinder, healthier, more communicative, more compliant, or more dramatic than the evidence supports. Do not flatten morally difficult behaviour. Keep all sound in-character material unchanged, and do not perform a general prose rewrite.
 
 Return only the complete corrected text. No explanation, notes, headings, or code fence.`
     },
@@ -22,7 +24,7 @@ Return only the complete corrected text. No explanation, notes, headings, or cod
         injectWorldInfo: false, includeCharCard: false, includeSceneContext: true,
         prompt: `You are a precise prose editor. Improve how the editable prose in <text_to_transform> reads without changing what it means.
 
-Preserve every event, action, reaction, fact, implication, order of events, tense, grammatical person, and point of view. Preserve dialogue wording unless a tiny punctuation correction is essential. Vary sentence length and openings; remove accidental repetition, filler, redundant filtering, and clumsy constructions; prefer concrete phrasing and natural rhythm. Keep intentional fragments, roughness, humour, intensity, and the established register. Do not sanitise dark, violent, sexual, or emotionally difficult fictional content. Do not add metaphors, purple prose, conclusions, waiting beats, or new sensory detail merely to sound literary.
+Preserve every event, action, reaction, fact, implication, order of events, tense, grammatical person, and point of view. Preserve all dialogue exactly, including contractions, slang, fragments, punctuation, cadence, and level of formality. Vary sentence length and openings; remove accidental repetition, filler, redundant filtering, and clumsy constructions; prefer concrete phrasing and natural rhythm. Keep intentional fragments, roughness, humour, intensity, and the established register. Do not sanitise dark, violent, sexual, or emotionally difficult fictional content. Do not add metaphors, purple prose, archaic or Victorian diction, faux-literary phrasing, conclusions, waiting beats, or new sensory detail merely to sound literary.
 
 Return only the complete rewritten text. No explanation, notes, headings, or code fence.`
     },
@@ -50,77 +52,92 @@ const styles = {
     dramatic: {
         name: '🎭 More Dramatic', category: 'style', contextLength: 8,
         injectWorldInfo: false, includeCharCard: true, includeSceneContext: true,
-        prompt: `Heighten the dramatic force of <text_to_transform> while preserving its events, characterisation, dialogue meaning, tense, person, and outcome. Sharpen the pressure between action and reaction, strengthen consequential details, and give important beats room to land. Favour earned intensity over melodrama: do not add random shouting, tears, speeches, catastrophes, or new plot events. Match the existing prose voice.
+        prompt: `Heighten the dramatic force of <text_to_transform> while preserving its events, characterisation, dialogue, tense, person, and outcome. Sharpen the pressure between action and reaction, strengthen consequential details, and give important beats room to land. Favour earned intensity over melodrama: do not add random shouting, tears, speeches, catastrophes, or new plot events. Match the existing prose voice.${dialogueLock}
 
 Return only the complete rewritten text. No explanation, notes, headings, or code fence.`
     },
     dark: {
         name: '🌑 Darker Tone', category: 'style', contextLength: 8,
         injectWorldInfo: true, includeCharCard: true, includeSceneContext: true,
-        prompt: `Recast the editable prose in <text_to_transform> with a darker, harsher emotional atmosphere. Emphasise unease, consequence, compromised motives, dread, alienation, or ugly implications already latent in the scene. Keep the darkness specific to the characters and setting. Preserve all events, dialogue meaning, character agency, tense, person, and outcome. Do not add unrelated cruelty, supernatural elements, purple gloom, moral commentary, or a hopeful resolution.
+        prompt: `Recast the editable prose in <text_to_transform> with a darker, harsher emotional atmosphere. Emphasise unease, consequence, compromised motives, dread, alienation, or ugly implications already latent in the scene. Keep the darkness specific to the characters and setting. Preserve all events, dialogue, character agency, tense, person, and outcome. Do not add unrelated cruelty, supernatural elements, purple gloom, moral commentary, or a hopeful resolution.${dialogueLock}
 
 Return only the complete rewritten text. No explanation, notes, headings, or code fence.`
     },
     horror: {
         name: '🕯️ Horror', category: 'style', contextLength: 10,
         injectWorldInfo: true, includeCharCard: true, includeSceneContext: true,
-        prompt: `Rewrite the editable prose in <text_to_transform> through a horror lens appropriate to the existing scene. Build dread through uncertainty, sensory selectivity, violated expectations, spatial awareness, and the characters' credible reactions. Let disturbing details arrive with control instead of explaining the fear. Preserve the actual events, dialogue meaning, lore, tense, person, and outcome. Do not invent a monster, threat, hallucination, death, or twist that is not already supported.
+        prompt: `Rewrite the editable prose in <text_to_transform> through a horror lens appropriate to the existing scene. Build dread through uncertainty, sensory selectivity, violated expectations, spatial awareness, and the characters' credible reactions. Let disturbing details arrive with control instead of explaining the fear. Preserve the actual events, dialogue, lore, tense, person, and outcome. Do not invent a monster, threat, hallucination, death, or twist that is not already supported.${dialogueLock}
 
 Return only the complete rewritten text. No explanation, notes, headings, or code fence.`
     },
     darkRomance: {
         name: '🥀 Dark Romance', category: 'style', contextLength: 12,
         injectWorldInfo: false, includeCharCard: true, includeSceneContext: true,
-        prompt: `Give <text_to_transform> the charged tone of dark romance while preserving the scene's events, consent state, boundaries, characterisation, dialogue meaning, tense, person, and outcome. Intensify dangerous attraction, obsession, distrust, vulnerability, power imbalance, restraint, and emotional contradiction only where the existing material supports them. Keep harmful behaviour recognisably harmful without inserting lectures or sanitising it. Do not manufacture consent, attraction, possession, abuse, tenderness, or redemption.
+        prompt: `Give <text_to_transform> the charged tone of dark romance while preserving the scene's events, consent state, boundaries, characterisation, dialogue, tense, person, and outcome. Intensify dangerous attraction, obsession, distrust, vulnerability, power imbalance, restraint, and emotional contradiction only where the existing material supports them. Keep harmful behaviour recognisably harmful without inserting lectures or sanitising it. Do not manufacture consent, attraction, possession, abuse, tenderness, or redemption.${dialogueLock}
 
 Return only the complete rewritten text. No explanation, notes, headings, or code fence.`
     },
     satire: {
         name: '🃏 Satire', category: 'style', contextLength: 10,
         injectWorldInfo: true, includeCharCard: true, includeSceneContext: true,
-        prompt: `Sharpen <text_to_transform> into satire aimed at the hypocrisies, institutions, status games, or character delusions already present. Use contrast, specificity, irony, escalation, and deadpan consequence rather than explaining the joke. Preserve the events, factual content, character voices, dialogue meaning, tense, person, and outcome. Do not turn every line into a gag, add topical references that do not belong, or make characters self-aware merely for a punchline.
+        prompt: `Sharpen <text_to_transform> into satire aimed at the hypocrisies, institutions, status games, or character delusions already present. Use contrast, specificity, irony, escalation, and deadpan consequence rather than explaining the joke. Preserve the events, factual content, character voices, dialogue, tense, person, and outcome. Do not turn every line into a gag, add topical references that do not belong, or make characters self-aware merely for a punchline.${dialogueLock}
 
 Return only the complete rewritten text. No explanation, notes, headings, or code fence.`
     },
     romance: {
         name: '💗 Romance', category: 'style', contextLength: 12,
         injectWorldInfo: false, includeCharCard: true, includeSceneContext: true,
-        prompt: `Strengthen the romantic texture of <text_to_transform> without changing what occurs or inventing feelings. Bring forward supported attraction, tenderness, awkwardness, yearning, intimacy, or emotional risk through attention, timing, subtext, and character-specific detail. Preserve boundaries, consent, conflict, dialogue meaning, tense, person, and outcome. Avoid generic pet names, instant vulnerability, syrupy language, and compulsory happy resolution.
+        prompt: `Strengthen the romantic texture of <text_to_transform> without changing what occurs or inventing feelings. Bring forward supported attraction, tenderness, awkwardness, yearning, intimacy, or emotional risk through attention, timing, subtext, and character-specific detail. Preserve boundaries, consent, conflict, dialogue, tense, person, and outcome. Avoid generic pet names, instant vulnerability, syrupy language, and compulsory happy resolution.${dialogueLock}
 
 Return only the complete rewritten text. No explanation, notes, headings, or code fence.`
     },
     action: {
         name: '⚔️ Action & Violence', category: 'style', contextLength: 8,
         injectWorldInfo: true, includeCharCard: true, includeSceneContext: true,
-        prompt: `Rewrite the action or violence in <text_to_transform> for clarity, momentum, weight, and consequence. Keep spatial positions, capabilities, injuries, weapons, event order, winners, losses, dialogue meaning, tense, and person unchanged. Use readable cause-and-effect, varied pacing, and physically credible reactions. Do not grant new skills, add attacks, change tactical decisions, soften violence, or turn the scene into weightless choreography.
+        prompt: `Rewrite the action or violence in <text_to_transform> for clarity, momentum, weight, and consequence. Keep spatial positions, capabilities, injuries, weapons, event order, winners, losses, dialogue, tense, and person unchanged. Use readable cause-and-effect, varied pacing, and physically credible reactions. Do not grant new skills, add attacks, change tactical decisions, soften violence, or turn the scene into weightless choreography.${dialogueLock}
 
 Return only the complete rewritten text. No explanation, notes, headings, or code fence.`
     },
     gore: {
         name: '🩸 Gore & Body Horror', category: 'style', contextLength: 8,
         injectWorldInfo: false, includeCharCard: true, includeSceneContext: true,
-        prompt: `Make the existing injury, gore, or bodily horror in <text_to_transform> more visceral and materially specific. Focus on anatomy, texture, sound, loss of bodily control, pain response, and practical aftermath where supported. Preserve the exact events, severity, victims, injuries, dialogue meaning, tense, person, and outcome. Do not create new wounds, deaths, mutilations, infections, or supernatural changes. Do not sanitise the fictional content or interrupt it with moral commentary.
+        prompt: `Make the existing injury, gore, or bodily horror in <text_to_transform> more visceral and materially specific. Focus on anatomy, texture, sound, loss of bodily control, pain response, and practical aftermath where supported. Preserve the exact events, severity, victims, injuries, dialogue, tense, person, and outcome. Do not create new wounds, deaths, mutilations, infections, or supernatural changes. Do not sanitise the fictional content or interrupt it with moral commentary.${dialogueLock}
 
 Return only the complete rewritten text. No explanation, notes, headings, or code fence.`
     },
     noir: {
         name: '🚬 Noir', category: 'style', contextLength: 10,
         injectWorldInfo: true, includeCharCard: true, includeSceneContext: true,
-        prompt: `Give <text_to_transform> a restrained noir treatment suited to its existing setting: moral compromise, suspicion, social texture, sharp observation, economical imagery, and consequences that cling. Preserve every event, character fact, dialogue meaning, tense, grammatical person, point of view, and outcome. Do not force first-person narration, period slang, rain, cigarettes, detectives, femme-fatale clichés, or decorative similes where they do not belong.
+        prompt: `Give <text_to_transform> a restrained noir treatment suited to its existing setting: moral compromise, suspicion, social texture, sharp observation, economical imagery, and consequences that cling. Preserve every event, character fact, dialogue, tense, grammatical person, point of view, and outcome. Do not force first-person narration, period slang, rain, cigarettes, detectives, femme-fatale clichés, or decorative similes where they do not belong.${dialogueLock}
 
 Return only the complete rewritten text. No explanation, notes, headings, or code fence.`
     },
     explicit: {
         name: '🔥 More Explicit (Adults)', category: 'style', contextLength: 10,
         injectWorldInfo: false, includeCharCard: true, includeSceneContext: true,
-        prompt: `For scenes involving consenting adult characters, make the existing sexual content in <text_to_transform> more explicit, embodied, and specific while matching the characters and established tone. Preserve who does what, consent and boundaries, anatomy, positions, dialogue meaning, tense, person, pacing, and outcome. Do not invent acts, consent, orgasms, kinks, coercion, declarations, or relationship changes. If the scene is not already sexual, or any participant is not clearly an adult, leave the content unchanged.
+        prompt: `For scenes involving consenting adult characters, make the existing sexual content in <text_to_transform> more explicit, embodied, and specific while matching the characters and established tone. Preserve who does what, consent and boundaries, anatomy, positions, dialogue, tense, person, pacing, and outcome. Do not invent acts, consent, orgasms, kinks, coercion, declarations, or relationship changes. If the scene is not already sexual, or any participant is not clearly an adult, leave the content unchanged.${dialogueLock}
 
 Return only the complete rewritten text. No explanation, notes, headings, or code fence.`
     }
 };
 
+const characters = {
+    markJefferson: {
+        name: '📷 Mark Jefferson Voice', category: 'character', contextLength: 15,
+        injectWorldInfo: false, includeCharCard: true, includeSceneContext: true,
+        prompt: `You are performing a narrowly targeted character-voice pass on <text_to_transform>. Edit only dialogue spoken by Mark Jefferson and the smallest immediately attached mannerism when needed. Leave narration, events, formatting, and every other character's dialogue unchanged.
+
+Prioritise the supplied character card, example dialogue, and Mark's demonstrated voice in the recent scene over this general guide. Keep the original meaning, intent, emotional temperature, knowledge, manipulation, and outcome of each line. Mark speaks contemporary American English. Preserve and naturally use contractions such as "I'm," "don't," "can't," "that's," "you're," "I've," and "we'll" instead of expanding them. His cadence is controlled, conversational, polished, observant, and often understated; he can use dry humour, casual fragments, clipped replies, teacherly correction, or photographer vocabulary when it fits. His charm, condescension, manipulation, threat, or menace should emerge through restraint and subtext rather than grand speeches.
+
+Do not make him Victorian, archaic, British, robotically formal, florid, generically romantic, openly sentimental, or a cartoon villain. Do not add constant photography metaphors, random pet names, confessions, monologues, warmth, cruelty, or information not already present. Do not remove natural contractions, profanity, hesitation, or fragments. If a line already sounds like Mark, preserve it exactly.
+
+Return only the complete text with the minimal voice corrections applied. No explanation, notes, headings, or code fence.`
+    }
+};
+
 export const passLibrary = [
     { id: 'utility', label: 'Utility', items: utility },
+    { id: 'character', label: 'Character', items: characters },
     { id: 'style', label: 'Filters / Styles', items: styles }
 ];
 
@@ -144,6 +161,10 @@ export function makeToolkitPresets() {
         {
             name: 'Utility Toolkit',
             passes: Object.keys(utility).map(key => make(key, `utility_${key}`))
+        },
+        {
+            name: 'Character Filters',
+            passes: Object.keys(characters).map(key => make(key, `character_${key}`))
         },
         {
             name: 'Styles & Filters',
