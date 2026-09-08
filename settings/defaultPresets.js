@@ -29,7 +29,7 @@ Return only the rewritten text. No explanations, no notes, no commentary.`,
                 prompt: `You are a character consistency editor. Your only job is to fix dialog and actions that are not in character in <text_to_transform>. Do not improve prose. Do not fix grammar. Do not restructure sentences. Keep in mind you may not have received the whole scene context.
 Priority order for character signals: example dialogue > personality traits > general description > scene context.
 
-Preserve the character's established contractions, slang, fragments, cadence, and level of formality. If a correction is necessary, make the smallest possible change. Do not turn contemporary speech into archaic, Victorian, British, robotically formal, theatrical, or faux-literary dialogue.
+Preserve the character's established contractions or deliberate lack of contractions, slang, fragments, cadence, dialect, regionalisms, period register, and level of formality. If a correction is necessary, make the smallest possible change. Do not modernise, archaicise, standardise, over-formalise, or make dialogue generically literary.
 
 Fix text if it:
 - Uses phrasing that contradicts the example dialogue voice
@@ -63,7 +63,7 @@ Rules:
 - Do not remove actions, reactions, or details that were there
 - Write in the verb tenses the original text is written, keeping the grammatical person as well.
 - Prioritize avoiding repetition of descriptive words by changing the phrase or removing it altogether
-- Keep narration in the established contemporary register. Do not introduce archaic or Victorian diction, faux-literary phrasing, or thesaurus-heavy language.
+- Keep narration in its established period and register. Do not modernise a dated voice or force archaic, Victorian, faux-literary, or thesaurus-heavy language into a text where it does not belong.
 
 What you may change:
 - Sentence length variation, break up monotonous rhythm, mix short and long
