@@ -4,12 +4,22 @@ import { passLibrary } from '../settings/passLibrary.js';
 
 const groups = Object.fromEntries(passLibrary.map(group => [group.id, group.items]));
 
-test('every style filter locks spoken dialogue and contemporary register', () => {
+test('every style filter locks spoken dialogue and each character register', () => {
     for (const [key, pass] of Object.entries(groups.style)) {
         assert.match(pass.prompt, /DIALOGUE LOCK/, key);
-        assert.match(pass.prompt, /Preserve its exact wording, contractions, slang, profanity, fragments, punctuation, cadence/, key);
-        assert.match(pass.prompt, /Victorian or archaic diction/, key);
+        assert.match(pass.prompt, /Preserve its exact wording, contractions or deliberate lack of contractions/, key);
+        assert.match(pass.prompt, /dialect, regionalisms, period register/, key);
+        assert.match(pass.prompt, /Do not introduce a time period, accent, dialect, nationality/, key);
     }
+});
+
+test('Easterman pass preserves his period and institutional voice', () => {
+    const pass = groups.character.easterman;
+    assert.equal(pass.category, 'character');
+    assert.match(pass.prompt, /late 1950s and early 1960s/);
+    assert.match(pass.prompt, /paternal therapist, program director, propagandist, and abusive authority/);
+    assert.match(pass.prompt, /not Victorian/);
+    assert.match(pass.prompt, /every other character's dialogue unchanged/);
 });
 
 test('Mark Jefferson pass is isolated and protects contractions', () => {
