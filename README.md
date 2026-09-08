@@ -1,19 +1,21 @@
 # NIGHTSHIFT Post-Processing for SillyTavern
 
-NIGHTSHIFT is a separate, expanded edition of [Recast Post-Processing](https://github.com/closuretxt/recast-post-processing). It keeps Recast's multi-pass editing, Connection Profiles, streaming, presets, context injection, and diff review, then adds a grouped Utility / Filters & Styles pass library and fail-closed protection for structured output.
+NIGHTSHIFT is a separate, expanded edition of [Recast Post-Processing](https://github.com/closuretxt/recast-post-processing). It keeps Recast's multi-pass editing, Connection Profiles, streaming, presets, context injection, and diff review, then adds a grouped Utility / Character / Filters & Styles pass library and fail-closed protection for structured output.
 
 ## NIGHTSHIFT additions
 
 - **Byte-for-byte content lock:** macros such as `{{getvar::...}}`, paired XML/HTML blocks such as `<route>`, `<infoboard>`, and `<div>`, standalone tags, and fenced code are replaced with protected tokens before every model or regex edit and restored afterward.
 - **Fail closed:** if a model deletes, duplicates, alters, or reorders a protected token, that pass is discarded and the previous complete text is retained.
 - **Utility library:** World Grounding, Character Consistency, Prose Rhythm & Clarity, Continuity & Logic, and Repetition Cleanup.
+- **Character library:** a targeted Mark Jefferson voice pass that restores his contemporary American cadence and contractions without rewriting other characters.
 - **Filters / Styles library:** More Dramatic, Darker Tone, Horror, Dark Romance, Satire, Romance, Action & Violence, Gore & Body Horror, Noir, and More Explicit (Adults).
+- **Dialogue lock:** style filters affect narration and atmosphere while preserving spoken dialogue exactly, including contractions, slang, fragments, punctuation, and register.
 - **Per-pass profiles:** every added library pass has its own Connection Profile, context length, character card, scene context, and World Info controls.
 - **Separate identity:** NIGHTSHIFT uses its own settings, DOM identifiers, message metadata, macros, and `/ns-*` slash commands.
 - **Portable installation path:** the extension detects the folder SillyTavern installed it into instead of assuming the GitHub repository and local folder have identical names.
 - **Safari-safe mobile modals:** review and pass-editor windows track Safari's visible viewport and keep their action buttons above its expanding bottom toolbar.
 
-The original Recast default passes remain available in **Default Preset**. Two additional presets, **Utility Toolkit** and **Styles & Filters**, provide all new passes in a disabled state so you can enable only what you want. The same passes are also available from the grouped **Add from Pass Library** menu.
+The original Recast default passes remain available in **Default Preset**. Three additional presets, **Utility Toolkit**, **Character Filters**, and **Styles & Filters**, provide all new passes in a disabled state so you can enable only what you want. The same passes are also available from the grouped **Add from Pass Library** menu.
 
 Do not enable automatic processing in both Recast and NIGHTSHIFT at once unless you deliberately want both pipelines editing the same reply.
 
