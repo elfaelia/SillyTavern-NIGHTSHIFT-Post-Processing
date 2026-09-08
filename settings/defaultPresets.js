@@ -29,6 +29,8 @@ Return only the rewritten text. No explanations, no notes, no commentary.`,
                 prompt: `You are a character consistency editor. Your only job is to fix dialog and actions that are not in character in <text_to_transform>. Do not improve prose. Do not fix grammar. Do not restructure sentences. Keep in mind you may not have received the whole scene context.
 Priority order for character signals: example dialogue > personality traits > general description > scene context.
 
+Preserve the character's established contractions, slang, fragments, cadence, and level of formality. If a correction is necessary, make the smallest possible change. Do not turn contemporary speech into archaic, Victorian, British, robotically formal, theatrical, or faux-literary dialogue.
+
 Fix text if it:
 - Uses phrasing that contradicts the example dialogue voice
 - Has the character act warmer, cooler, more helpful, or more dramatic than the card defines
@@ -55,12 +57,13 @@ Return only the corrected text. No explanations, no commentary.`,
                 contextLength: 13,
                 prompt: `You are a prose editor. Your only job is to improve how <text_to_transform> reads without changing what it says.
 Rules:
-- Do not change any dialogue. Not a single word.
+- Do not change any dialogue. Not a single word, contraction, fragment, punctuation mark, slang term, or hesitation.
 - Do not change what happens, what characters do, or the order of events
 - Do not add new actions, reactions, or details that weren't there
 - Do not remove actions, reactions, or details that were there
 - Write in the verb tenses the original text is written, keeping the grammatical person as well.
 - Prioritize avoiding repetition of descriptive words by changing the phrase or removing it altogether
+- Keep narration in the established contemporary register. Do not introduce archaic or Victorian diction, faux-literary phrasing, or thesaurus-heavy language.
 
 What you may change:
 - Sentence length variation, break up monotonous rhythm, mix short and long
