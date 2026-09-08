@@ -1,8 +1,59 @@
 import { extension_settings } from "../../../../extensions.js";
 import { saveSettingsDebounced } from "../../../../../script.js";
 import { defaultPresets } from "./defaultPresets.js";
+import { createLibraryPass } from "./passLibrary.js";
 import { presetManager } from "../ui/presetManager.js";
 import { extensionName } from "../index.js";
+
+const BUNDLED_PROMPT_REVISION = 2;
+
+const bundledPassKeys = {
+    pass_grounding: 'grounding',
+    pass_validator: 'character',
+    pass_prose: 'prose',
+    pass_repetitionhammer: 'repetition',
+    utility_grounding: 'grounding',
+    utility_character: 'character',
+    utility_prose: 'prose',
+    utility_continuity: 'continuity',
+    utility_repetition: 'repetition',
+    character_markJefferson: 'markJefferson',
+    style_dramatic: 'dramatic',
+    style_dark: 'dark',
+    style_horror: 'horror',
+    style_darkRomance: 'darkRomance',
+    style_satire: 'satire',
+    style_romance: 'romance',
+    style_action: 'action',
+    style_gore: 'gore',
+    style_noir: 'noir',
+    style_explicit: 'explicit'
+};
+
+function migrateBundledPrompts(settings, previousRevision) {
+    if (previousRevision >= BUNDLED_PROMPT_REVISION) return false;
+
+    for (const preset of settings.presets || []) {
+        for (const pass of preset.passes || []) {
+            const libraryKey = bundledPassKeys[pass.id];
+            if (!libraryKey) continue;
+            const current = createLibraryPass(libraryKey);
+            if (!current) continue;
+            pass.prompt = current.prompt;
+            pass.category = current.category;
+        }
+    }
+
+    // Add new bundled sections without replacing the user's presets or settings.
+    for (const bundledPreset of defaultPresets) {
+        if (!settings.presets.some(preset => preset.name === bundledPreset.name)) {
+            settings.presets.push(structuredClone(bundledPreset));
+        }
+    }
+
+    settings.bundled_prompt_revision = BUNDLED_PROMPT_REVISION;
+    return true;
+}
 
 export const defaultSettings = {
     enabled: true,
@@ -18,6 +69,7 @@ export const defaultSettings = {
     compatibility_mode: false, // Enables compatibility fixes for other extensions
     scene_context_as_roles: false,
     protect_structured_content: true, // Byte-for-byte protection for macros, tagged blocks and code fences
+    bundled_prompt_revision: BUNDLED_PROMPT_REVISION,
     
     apply_regexes: true, // Applies ST regex scripts to the pipeline output (assistant placement, depth 0 or N/A only)
     apply_regex_context: true, // Applies ST regex scripts to each context message individually (per-message depth and role placement)
@@ -45,11 +97,17 @@ export async function loadSettings() {
         Object.assign(extension_settings[extensionName], structuredClone(defaultSettings));
     }
 
+    const previousBundledPromptRevision = Number(extension_settings[extensionName].bundled_prompt_revision || 0);
+
     // Fill in defaults for settings added after the user's first load
     for (const [key, value] of Object.entries(defaultSettings)) {
         if (!(key in extension_settings[extensionName])) {
             extension_settings[extensionName][key] = structuredClone(value);
         }
+    }
+
+    if (migrateBundledPrompts(extension_settings[extensionName], previousBundledPromptRevision)) {
+        saveSettingsDebounced();
     }
 
     $("#nightshift_enabled").prop("checked", extension_settings[extensionName].enabled);
