@@ -9,7 +9,7 @@ NIGHTSHIFT is a separate, expanded edition of [Recast Post-Processing](https://g
 - **Utility library:** World Grounding, Character Consistency, Prose Rhythm & Clarity, Continuity & Logic, and Repetition Cleanup.
 - **Character library:** targeted voice passes for Mark Jefferson and Dr. Hendrick Joliet Easterman without rewriting other characters.
 - **Filters / Styles library:** More Dramatic, Darker Tone, Horror, Dark Romance, Satire, Romance, Action & Violence, Gore & Body Horror, Noir, and More Explicit (Adults).
-- **Dialogue lock:** style filters affect narration and atmosphere while preserving spoken dialogue exactly, including contractions, slang, fragments, dialect, period, punctuation, and register.
+- **Voice-preserving dialogue edits:** style filters may lightly reshape dialogue for genre, while retaining each character's meaning, cadence, contraction habits, slang, dialect, period, vocabulary range, and formality.
 - **Per-pass profiles:** every added library pass has its own Connection Profile, context length, character card, scene context, and World Info controls.
 - **Separate identity:** NIGHTSHIFT uses its own settings, DOM identifiers, message metadata, macros, and `/ns-*` slash commands.
 - **Portable installation path:** the extension detects the folder SillyTavern installed it into instead of assuming the GitHub repository and local folder have identical names.
