@@ -1,11 +1,11 @@
 import { extension_settings } from "../../../../extensions.js";
 import { saveSettingsDebounced } from "../../../../../script.js";
 import { defaultPresets } from "./defaultPresets.js";
-import { createLibraryPass } from "./passLibrary.js";
+import { createLibraryPass, passLibrary } from "./passLibrary.js";
 import { presetManager } from "../ui/presetManager.js";
 import { extensionName } from "../index.js";
 
-const BUNDLED_PROMPT_REVISION = 3;
+const BUNDLED_PROMPT_REVISION = 4;
 
 const bundledPassKeys = {
     pass_grounding: 'grounding',
@@ -36,7 +36,7 @@ function migrateBundledPrompts(settings, previousRevision) {
 
     for (const preset of settings.presets || []) {
         for (const pass of preset.passes || []) {
-            const libraryKey = bundledPassKeys[pass.id];
+            const libraryKey = bundledPassKeys[pass.id] || findLibraryKeyByName(pass.name);
             if (!libraryKey) continue;
             const current = createLibraryPass(libraryKey);
             if (!current) continue;
@@ -65,6 +65,16 @@ function migrateBundledPrompts(settings, previousRevision) {
 
     settings.bundled_prompt_revision = BUNDLED_PROMPT_REVISION;
     return true;
+}
+
+function findLibraryKeyByName(name) {
+    if (!name) return null;
+    for (const group of passLibrary) {
+        for (const [key, template] of Object.entries(group.items)) {
+            if (template.name === name) return key;
+        }
+    }
+    return null;
 }
 
 export const defaultSettings = {
