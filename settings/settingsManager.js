@@ -5,7 +5,7 @@ import { createLibraryPass } from "./passLibrary.js";
 import { presetManager } from "../ui/presetManager.js";
 import { extensionName } from "../index.js";
 
-const BUNDLED_PROMPT_REVISION = 2;
+const BUNDLED_PROMPT_REVISION = 3;
 
 const bundledPassKeys = {
     pass_grounding: 'grounding',
@@ -18,6 +18,7 @@ const bundledPassKeys = {
     utility_continuity: 'continuity',
     utility_repetition: 'repetition',
     character_markJefferson: 'markJefferson',
+    character_easterman: 'easterman',
     style_dramatic: 'dramatic',
     style_dark: 'dark',
     style_horror: 'horror',
@@ -46,8 +47,19 @@ function migrateBundledPrompts(settings, previousRevision) {
 
     // Add new bundled sections without replacing the user's presets or settings.
     for (const bundledPreset of defaultPresets) {
-        if (!settings.presets.some(preset => preset.name === bundledPreset.name)) {
+        const existingPreset = settings.presets.find(preset => preset.name === bundledPreset.name);
+        if (!existingPreset) {
             settings.presets.push(structuredClone(bundledPreset));
+            continue;
+        }
+
+        // New bundled passes appear in an existing toolkit without touching its other passes.
+        if (bundledPreset.name === 'Character Filters') {
+            for (const bundledPass of bundledPreset.passes) {
+                if (!existingPreset.passes.some(pass => pass.id === bundledPass.id)) {
+                    existingPreset.passes.push(structuredClone(bundledPass));
+                }
+            }
         }
     }
 
