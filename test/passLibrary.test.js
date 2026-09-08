@@ -4,12 +4,13 @@ import { passLibrary } from '../settings/passLibrary.js';
 
 const groups = Object.fromEntries(passLibrary.map(group => [group.id, group.items]));
 
-test('every style filter locks spoken dialogue and each character register', () => {
+test('every style filter permits light dialogue edits while preserving character voice', () => {
     for (const [key, pass] of Object.entries(groups.style)) {
-        assert.match(pass.prompt, /DIALOGUE LOCK/, key);
-        assert.match(pass.prompt, /Preserve its exact wording, contractions or deliberate lack of contractions/, key);
-        assert.match(pass.prompt, /dialect, regionalisms, period register/, key);
-        assert.match(pass.prompt, /Do not introduce a time period, accent, dialect, nationality/, key);
+        assert.match(pass.prompt, /VOICE-PRESERVING DIALOGUE/, key);
+        assert.match(pass.prompt, /You may lightly revise dialogue/, key);
+        assert.match(pass.prompt, /contraction habits, sentence shapes, cadence, vocabulary range/, key);
+        assert.match(pass.prompt, /Do not modernise, archaicise, standardise, over-formalise, poeticise/, key);
+        assert.match(pass.prompt, /Prefer leaving a line unchanged when the genre can be conveyed through narration/, key);
     }
 });
 
